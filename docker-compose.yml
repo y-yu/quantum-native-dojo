@@ -1,0 +1,11 @@
+version: '3.2'
+services:
+  quantum-native-dojo-compile:
+    image: qulacs/quantum-native-dojo:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      cache_from:
+        - qulacs/quantum-native-dojo:latest
+    volumes:
+      - .:/workdir

@@ -1,0 +1,94 @@
+\documentclass[a5paper,lualatex,9pt,openany,ja=standard]{bxjsarticle}
+\usepackage{graphicx}
+% 欧文のフォント設定
+\usepackage[default, regular, bold]{sourcesanspro}
+\usepackage[default, regular, bold]{sourceserifpro}
+% 日本語フォント設定
+\usepackage[sourcehan-jp, deluxe]{luatexja-preset}
+% PDFリンク
+\usepackage{hyperref}
+% コードハイライト
+\usepackage{fancyvrb}
+
+\usepackage{amsmath}
+\usepackage{tikz} % Needed to box output/input
+\usepackage{scrextend} % Used to indent output
+\usepackage{needspace} % Make prompts follow contents
+\usepackage{framed} % Used to draw output that spans multiple pages
+\usepackage{subfiles}
+\usepackage{adjustbox}
+
+\makeatletter
+\patchcmd{\nocite}{\ifx\@onlypreamble\document}{\iftrue}{}{}
+\makeatother
+
+% BiBTeXが\section*を利用するように修正
+\makeatletter
+\renewenvironment{thebibliography}[1]{%
+  \global\let\presectionname\relax
+  \global\let\postsectionname\relax
+  \section*{\bibname}\@mkboth{\bibname}{}%
+  \addcontentsline{toc}{section}{\bibname}%
+  \list{\@biblabel{\@arabic\c@enumiv}}%
+  {\settowidth\labelwidth{\@biblabel{#1}}%
+    \leftmargin\labelwidth
+      \advance\leftmargin\labelsep
+        \@openbib@code
+        \usecounter{enumiv}%
+        \let\p@enumiv\@empty
+        \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty\clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m}
+    {\def\@noitemerr
+      {\@latex@warning{Empty `thebibliography' environment}}%
+    \endlist}
+\makeatother
+
+% 脚注の途中の改ページを抑制する
+\interfootnotelinepenalty=10000
+
+% 強調（\emph）をボールドゴシックに設定
+\let\emph\relax
+\DeclareTextFontCommand{\emph}{\gtfamily\bfseries}
+ 
+% 見出しのフォントをゴシックに設定
+\renewcommand{\headfont}{\gtfamily\sffamily}
+ 
+% チャプタータイトルの設定
+\usepackage[Glenn]{fncychap}
+\ChNameVar{\Large\headfont}
+\ChTitleVar{\bfseries\Large\mcfamily\rmfamily}
+\makeatletter
+\renewcommand{\DOCH}{%
+  \settoheight{\myhi}{\CTV\FmTi{Test}}
+  \setlength{\py}{\baselineskip}
+  \addtolength{\py}{\RW}
+  \addtolength{\py}{\myhi}
+  \setlength{\pyy}{\py}
+  \addtolength{\pyy}{-1\RW}
+  \raggedright
+  \CNV\FmN{\@chapapp}\space\CNoV\thechapter\CNV\FmN{\@chappos}
+  \hskip 3pt\mghrulefill{\RW}\rule[-1\pyy]{2\RW}{\py}\par\nobreak
+}
+\makeatother
+ 
+% ページレイアウト
+\geometry{centering}
+ 
+\definecolor{outcolor}{rgb}{0.0,0.0,0.0}
+ 
+\title{Quantum Native Dojo!}
+\author{Keisuke Fujii \and Kosuke Mitarai \and Ikko Hamamura \and @kamakiri}
+
+\input{./lib/base.tex}
+
+\begin{document}
+
+\tableofcontents
+
+\input{./body.tex}
+
+\end{document}
